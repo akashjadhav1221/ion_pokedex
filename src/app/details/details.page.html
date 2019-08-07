@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="text-transform: capitalize;">{{details?.name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <div *ngIf="!details" style="text-align: center; margin-top: 32vh;">
+       Loading...
+    </div>
+
+  <div *ngIf="details">
+    <ion-slides pager="true" [options]="slideOpts">
+      <ion-slide *ngFor="let sprite of details['images']">
+          <img [src]="sprite" style="height: 250px;">
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+  <ion-card *ngIf="details">
+      <ion-card-header>
+          <ion-card-title style="text-transform: capitalize;"># {{details.name}}
+           
+            <ng-container *ngFor="let type of details.types">
+                <ion-chip>
+                    <ion-label color="primary">{{type}}</ion-label>
+                </ion-chip>
+            </ng-container>
+             
+          </ion-card-title>
+          <ion-card-subtitle>{{details.weight}} lbs</ion-card-subtitle>
+        </ion-card-header>
+    
+      <ion-item>
+        <ion-label>Abilities: </ion-label>
+        <p style="text-transform: capitalize;">{{details.abilities}}</p>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label>Height</ion-label>
+        <p>{{details.height}}</p>
+      </ion-item>
+
+      <ion-item *ngFor="let stat of details.stats">
+          <ion-label style="text-transform: capitalize;">{{stat.stat.name}}</ion-label>
+          <p>{{stat.base_stat}}</p>
+        </ion-item>
+
+
+    </ion-card>
+
+</ion-content>

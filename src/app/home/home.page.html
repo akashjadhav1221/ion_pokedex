@@ -1,14 +1,35 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
-      Ionic Blank
+      PokeDex
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
-  </div>
+  <ion-searchbar showCancelButton="focus" placeholder="Search Pokemon" debounce="500" (keyup.enter)="searchPokemon()" [(ngModel)]="query" (ionCancel)="showPoke()"></ion-searchbar>
+
+  <ion-item *ngIf="query.length > 0 && searchedCompleted" [routerLink]="searchedPoke.pokeIndex">
+    <ion-avatar slot="start" *ngIf="searchedPoke.image">
+      <img [src]="searchedPoke.image">
+    </ion-avatar>
+    <ion-label style="text-transform: capitalize;" *ngIf="searchedPoke.name">{{searchedPoke.name}}</ion-label>
+  </ion-item>
+  
+  <ion-list *ngIf="query.length === 0">
+  <ion-item *ngFor="let pokemon of pokemons" [routerLink]="pokemon.pokeIndex">
+    <ion-avatar slot="start">
+      <img [src]="pokemon.image">
+    </ion-avatar>
+    <ion-label style="text-transform: capitalize;">{{pokemon.name}}</ion-label>
+  </ion-item>
+ </ion-list>
+
+ <ion-infinite-scroll threshold="100px" (ionInfinite)="loadPokemon(true, $event)">
+  <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="Loading more Pokemons...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+
 </ion-content>
